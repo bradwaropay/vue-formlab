@@ -1,6 +1,5 @@
 <template>
   <form class="fl-form">
-    <!-- Header -->
     <header v-if="fx.heading || fx.descripton" class="fl-form__header">
       <h1 v-if="fx.heading" class="fl-form__header-heading">
         {{ fx.heading }}
@@ -10,11 +9,11 @@
       </p>
       <slot name="header" />
     </header>
-    <!-- Section -->
     <div
       v-for="(section, sectionIndex) in fx.sections"
-      :key="getKey(sectionIndex)"
-      :class="'fl-form__section--' + getKey(sectionIndex)"
+      :key="getFormKey(sectionIndex)"
+      :style="getColumns(section.columns || fx.sectionColumns, 1)"
+      :class="'fl-form__section--' + getFormKey(sectionIndex)"
       class="fl-form__section"
     >
       <h2 v-if="section.heading" class="fl-form__section-heading">
@@ -23,13 +22,12 @@
       <p v-if="section.description" class="fl-form__section-description">
         {{ section.description }}
       </p>
-      <slot :name="getKey(sectionIndex)" />
-      <!-- Fieldset -->
+      <slot :name="getFormKey(sectionIndex)" />
       <fieldset
         v-for="(fieldset, fieldsetIndex) in section.fieldsets"
-        :key="getKey(sectionIndex, fieldsetIndex)"
-        :name="fieldset.name || getKey(sectionIndex, fieldsetIndex)"
-        :class="'fl-form__fieldset--' + getKey(sectionIndex, fieldsetIndex)"
+        :key="getFormKey(sectionIndex, fieldsetIndex)"
+        :name="getFormKey(sectionIndex, fieldsetIndex)"
+        :class="'fl-form__fieldset--' + getFormKey(sectionIndex, fieldsetIndex)"
         class="fl-form__fieldset"
       >
         <legend v-if="fieldset.heading" class="fl-form__fieldset-legend">
@@ -38,37 +36,41 @@
         <p v-if="fieldset.description" class="fl-form__fieldset-description">
           {{ fieldset.description }}
         </p>
-        <slot :name="getKey(sectionIndex, fieldsetIndex)" />
-        <!-- Field -->
+        <slot :name="getFormKey(sectionIndex, fieldsetIndex)" />
         <div
-          v-for="(field, fieldIndex) in fieldset.fields"
-          :key="getKey(sectionIndex, fieldsetIndex, fieldIndex)"
-          :class="
-            'fl-form__field--' + getKey(sectionIndex, fieldsetIndex, fieldIndex)
-          "
-          class="fl-form__field"
+          :style="getColumns(fieldset.columns || fx.fieldsetColumns, 2)"
+          class="fl-form__fields"
         >
-          <label
-            v-if="field.label"
-            :for="field.name"
-            class="fl-form__field-label"
+          <div
+            v-for="(field, fieldIndex) in fieldset.fields"
+            :key="getFormKey(sectionIndex, fieldsetIndex, fieldIndex)"
+            :style="getColumnSpan(field.columnSpan)"
+            :class="
+              'fl-form__field--' +
+                getFormKey(sectionIndex, fieldsetIndex, fieldIndex)
+            "
+            class="fl-form__field"
           >
-            {{ field.label }}
-          </label>
-          <abbr title="Required">*</abbr>
-          <component :is="'input'" :id="field.name" type="text" />
+            <label
+              v-if="field.label"
+              :for="getFormKey(sectionIndex, fieldsetIndex, fieldIndex)"
+              class="fl-form__field-label"
+            >
+              {{ field.label }}
+            </label>
+            <FormField
+              :field="field"
+              :field-id="getFormKey(sectionIndex, fieldsetIndex, fieldIndex)"
+              :lib="lib"
+              :value="getFieldValue(field)"
+              @updateForm="updateForm(field.key, $event)"
+            />
+          </div>
         </div>
       </fieldset>
     </div>
     <footer class="fl-form__footer">
-      <!-- Footer Definitions -->
-      <dl class="fl-form__definitions">
-        <dt>*</dt>
-        <dl>Required Fields</dl>
-      </dl>
-      <!-- Form Actions -->
       <div class="fl-form__actions">
-        <!-- Submit -->
         <input
           type="submit"
           value="Submit"
@@ -80,7 +82,14 @@
 </template>
 
 <script>
+import _ from 'lodash'
+
+import FormField from './FormField'
+
 export default {
+  components: {
+    FormField
+  },
   props: {
     fx: {
       type: Object,
@@ -95,23 +104,45 @@ export default {
       }
     }
   },
-  data() {
-    return {
-      formInput: this.value
+  computed: {
+    lib() {
+      return {}
     }
   },
   methods: {
-    getKey(sectionIndex, fieldsetIndex, fieldIndex) {
-      const args = [...arguments].map((arg) => {
-        return arg + 1
-      })
-
-      let key
-      args.forEach((arg, index) => {
-        index === 0 ? (key = arg) : (key = `${key}-${arg}`)
-      })
-      return key
+    getColumns(columns, defaultColumns) {
+      return {
+        gridTemplateColumns: `repeat(${columns || defaultColumns}, 1fr)`
+      }
+    },
+    getColumnSpan(columnSpan) {
+      return {
+        gridColumn: `span ${columnSpan || 'auto'}`
+      }
+    },
+    getFieldValue(field) {
+      const value = _.get(this.value, field.key, null)
+      if (field.value && value === null) this.updateForm(field.key, field.value)
+      return value
+    },
+    getFormKey(...index) {
+      return [...index]
+        .map((arg) => {
+          return arg + 1
+        })
+        .join('-')
+    },
+    updateForm(key, value) {
+      _.set(this.value, key, value)
+      this.$emit('input', { ...this.value })
     }
   }
 }
 </script>
+
+<style scoped>
+.fl-form__section,
+.fl-form__fields {
+  display: grid;
+}
+</style>

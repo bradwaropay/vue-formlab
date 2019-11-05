@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <Form :fx="$options.formula" />
-  </div>
+  <Form v-model="value" :fx="$options.formula" />
 </template>
 
 <script>
@@ -21,10 +19,26 @@ export default {
             description: 'This is a fieldset description.',
             fields: [
               {
-                field: 'text',
+                type: 'alphanumeric',
                 label: 'Label',
-                name: 'test',
+                key: 'one',
                 value: 'test',
+                config: {
+                  list: [
+                    'test',
+                    'apples',
+                    'bannanas',
+                    'cucumber',
+                    'assphalt',
+                    'birds'
+                  ]
+                },
+                validation: {}
+              },
+              {
+                label: 'Label',
+                key: 'two.test',
+                value: 'test1',
                 config: {},
                 validation: {}
               }
@@ -36,6 +50,13 @@ export default {
   },
   components: {
     Form
+  },
+  data() {
+    return {
+      value: {
+        one: 'test'
+      }
+    }
   }
 }
 </script>
