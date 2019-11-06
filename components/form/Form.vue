@@ -61,10 +61,13 @@
             <FormField
               :field="field"
               :field-id="getFormKey(sectionIndex, fieldsetIndex, fieldIndex)"
-              :lib="lib"
+              :lib="combinedLib"
               :value="getFieldValue(field)"
               @updateForm="updateForm(field.key, $event)"
             />
+            <p v-if="field.description" class="fl-form__field-description">
+              {{ field.description }}
+            </p>
           </div>
         </div>
       </fieldset>
@@ -98,6 +101,12 @@ export default {
         return {}
       }
     },
+    lib: {
+      type: Object,
+      default() {
+        return {}
+      }
+    },
     value: {
       type: Object,
       default() {
@@ -106,9 +115,15 @@ export default {
     }
   },
   computed: {
-    lib() {
-      return {}
+    combinedLib() {
+      const nativeLib = {}
+      return { ...nativeLib, ...this.lib }
     }
+  },
+  created() {
+    const themeDir = this.fx.themeDir || './style/theme'
+    const theme = this.fx.theme || 'default'
+    import(`${themeDir}/${theme}.css`)
   },
   methods: {
     getColumns(columns, defaultColumns) {
@@ -142,6 +157,8 @@ export default {
 </script>
 
 <style scoped>
+@import './style/reset.css';
+
 .fl-form__section,
 .fl-form__fields {
   display: grid;

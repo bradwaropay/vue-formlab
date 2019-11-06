@@ -21,6 +21,7 @@ export default {
               {
                 type: 'alphanumeric',
                 label: 'Label',
+                description: 'This is a description',
                 key: 'one',
                 value: 'test',
                 config: {

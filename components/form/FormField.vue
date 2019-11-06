@@ -29,7 +29,7 @@ export default {
       }
     },
     value: {
-      type: [String, Number, Array, Object, Boolean],
+      type: [String, Number, Boolean, Array, Object, Date, Function, Symbol],
       default: null
     }
   },
