@@ -24,14 +24,7 @@ export default {
                 key: 'one',
                 value: 'test',
                 config: {
-                  list: [
-                    'test',
-                    'apples',
-                    'bannanas',
-                    'cucumber',
-                    'assphalt',
-                    'birds'
-                  ]
+                  list: ['test', 'apples', 'bannanas', 'cucumber']
                 },
                 validation: {}
               },

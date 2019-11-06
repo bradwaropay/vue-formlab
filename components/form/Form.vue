@@ -75,6 +75,7 @@
           type="submit"
           value="Submit"
           class="fl-form__action fl-form__action--submit"
+          @click="$emit('submit')"
         />
       </div>
     </footer>
