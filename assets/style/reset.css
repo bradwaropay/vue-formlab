@@ -1,3 +1,10 @@
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
 html,
 body,
 p,
@@ -25,6 +32,10 @@ h6 {
   padding: 0;
 }
 
+html {
+  box-sizing: border-box;
+}
+
 h1,
 h2,
 h3,
@@ -44,16 +55,6 @@ input,
 select,
 textarea {
   margin: 0;
-}
-
-html {
-  box-sizing: border-box;
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: inherit;
 }
 
 img,

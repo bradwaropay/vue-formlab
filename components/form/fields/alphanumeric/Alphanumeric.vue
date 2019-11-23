@@ -1,18 +1,25 @@
 <template>
-  <div>
+  <div class="fl-alphanumeric">
     <input
+      :autocomplete="config.autocomplete"
+      :autofocus="config.autofocus"
+      :disabled="config.disabled"
       :id="fieldId"
+      :inputmode="config.inputmode"
       :list="listName"
+      :name="name"
       :maxlength="config.maxlength"
       :minlength="config.minlength"
       :pattern="config.pattern"
       :placeholder="config.placeholder"
       :readonly="config.readonly"
       :required="config.required"
-      :size="config.size"
       :spellcheck="config.spellcheck"
+      :tabindex="config.tabindex"
+      :title="config.title"
       :value="value"
       type="text"
+      class="fl-alphanumeric__input"
       @input="updateField($event.target.value)"
     />
     <datalist v-if="listName" :id="listName">
@@ -43,3 +50,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.fl-alphanumeric__input {
+  font-size: 100%;
+  width: 100%;
+}
+</style>

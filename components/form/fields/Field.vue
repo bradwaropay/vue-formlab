@@ -17,6 +17,10 @@ export default {
         return {}
       }
     },
+    name: {
+      type: String,
+      default: null
+    },
     value: {
       type: String,
       default: null
