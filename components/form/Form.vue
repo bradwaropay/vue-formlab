@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @keypress.enter.prevent="formAction()">
     <header v-if="fx.heading || fx.descripton" class="fl-form__header">
       <h1 v-if="fx.heading" class="fl-form__header-heading">
         {{ fx.heading }}
@@ -87,6 +87,7 @@
     </div>
     <footer class="fl-form__footer">
       <div class="fl-form__actions">
+        <slot name="footer" />
         <template v-if="hasSections">
           <button
             v-if="!firstSection"
@@ -217,6 +218,11 @@ export default {
     },
     sectionNext() {
       this.activeSection++
+    },
+    formAction() {
+      this.hasSections && !this.lastSection
+        ? this.sectionNext()
+        : this.$emit('submit')
     }
   }
 }
