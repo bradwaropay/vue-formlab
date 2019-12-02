@@ -4,7 +4,8 @@
       <FieldLibrary />
     </div>
     <main class="form-lab__main">
-      <nuxt />
+      <FormEditor v-if="edit" />
+      <nuxt v-else />
     </main>
     <div class="form-lab__sidebar">
       <DataPreview :value="formValue" />
@@ -15,16 +16,23 @@
 <script>
 import { mapState } from 'vuex'
 
-import FieldLibrary from '@/components/field-library/FieldLibrary'
 import DataPreview from '@/components/data-preview/DataPreview'
+import FieldLibrary from '@/components/field-library/FieldLibrary'
+import FormEditor from '@/components/form-editor/FormEditor'
 
 export default {
   components: {
+    DataPreview,
     FieldLibrary,
-    DataPreview
+    FormEditor
   },
   computed: {
     ...mapState(['formValue'])
+  },
+  data() {
+    return {
+      edit: true
+    }
   }
 }
 </script>
