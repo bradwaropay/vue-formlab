@@ -1,5 +1,5 @@
 <template>
-  <Form v-model="value" :fx="$options.formula" />
+  <Form v-model="value" :fx="$options.formula" @input="setFormValue($event)" />
 </template>
 
 <script>
@@ -13,9 +13,12 @@ export default {
   },
   data() {
     return {
-      value: {
-        one: 'test'
-      }
+      value: {}
+    }
+  },
+  methods: {
+    setFormValue(value) {
+      this.$store.commit('SET_FORM_VALUE', value)
     }
   }
 }
