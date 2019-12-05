@@ -1,25 +1,13 @@
 <template>
-  <Form v-model="value" :fx="$options.formula" @input="setFormValue($event)" />
+  <FormComposer />
 </template>
 
 <script>
-import Form from '~/components/form/Form.vue'
-import Formula from '~/assets/forumla/demo-sectioned.json'
+import FormComposer from '~/components/form-composer/FormComposer.vue'
 
 export default {
-  formula: Formula,
   components: {
-    Form
-  },
-  data() {
-    return {
-      value: {}
-    }
-  },
-  methods: {
-    setFormValue(value) {
-      this.$store.commit('SET_FORM_VALUE', value)
-    }
+    FormComposer
   }
 }
 </script>

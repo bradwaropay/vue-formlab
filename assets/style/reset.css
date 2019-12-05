@@ -31,8 +31,16 @@ h6 {
   padding: 0;
 }
 
+html,
+body,
+#__nuxt,
+#__layout {
+  height: 100%;
+}
+
 html {
   box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
 }
 
 h1,
