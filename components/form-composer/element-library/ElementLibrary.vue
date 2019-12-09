@@ -15,9 +15,11 @@
     </ul>
     <h2 class="element-library__heading">Fields</h2>
     <label class="element-library__search">
-      <fa :icon="['fas', 'search']" />
-      <input type="search" />
-      <span>Search Fields</span>
+      <input type="search" class="element-library__search-input" />
+      <span class="element-library__search-label">
+        <fa :icon="['fas', 'search']" class="element-library__search-icon" />
+        Search Fields
+      </span>
     </label>
     <ul class="field-library">
       <li class="field-library__tile">
@@ -37,6 +39,10 @@
   margin-top: 1rem;
 }
 
+* + .element-library__heading {
+  margin-top: 2rem;
+}
+
 .element-library__heading {
   border-bottom: 0.016rem solid whitesmoke;
   font-weight: 800;
@@ -45,6 +51,30 @@
 
 .element-library__search {
   display: block;
+  position: relative;
+}
+
+.element-library__search + * {
+  margin-top: 2rem;
+}
+
+.element-library__search-input {
+  border-bottom: 0.016rem solid gray;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  font-size: 1rem;
+  display: block;
+  outline: none;
+  padding: 0.5rem 0;
+  width: 100%;
+}
+
+.element-library__search-label {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-top: 0.125rem;
 }
 
 .structure-library {
@@ -55,8 +85,8 @@
 
 .field-library__tile {
   background-color: white;
-  border-top: 0.5rem solid whitesmoke;
-  box-shadow: 0 0 0.25rem 0 rgba(0, 0, 0, 0.25);
+  border-top: 0.5rem solid paleturquoise;
+  box-shadow: 0 0 0.25rem 0 rgba(0, 0, 0, 0.2);
   cursor: grab;
   padding: 0.5rem;
   transition: transform 0.3s ease-in-out;
