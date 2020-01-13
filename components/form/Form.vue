@@ -1,5 +1,5 @@
 <template>
-  <form @keypress.enter.prevent="formAction()">
+  <form class="fl-form" @keypress.enter.prevent="formAction()">
     <header v-if="fx.heading || fx.descripton" class="fl-form__header">
       <h1 v-if="fx.heading" class="fl-form__header-heading">
         {{ fx.heading }}

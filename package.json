@@ -26,7 +26,8 @@
     "lodash": "^4.17.15",
     "nuxt": "^2.0.0",
     "nuxt-fontawesome": "^0.4.0",
-    "precss": "^4.0.0"
+    "precss": "^4.0.0",
+    "vuedraggable": "^2.23.2"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^1.0.1",

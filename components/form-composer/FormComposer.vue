@@ -4,12 +4,6 @@
       <ElementLibrary />
     </div>
     <div class="form-composer__workspace">
-      <button
-        class="form-composer__button form-composer__button--edit"
-        @click="toggleEdit()"
-      >
-        <fa :icon="['fas', edit ? 'stream' : 'pen']" />
-      </button>
       <FormEditor v-if="edit" />
       <FormPreview
         v-else
@@ -42,27 +36,31 @@ export default {
     FormEditor,
     FormPreview
   },
+  props: {
+    edit: {
+      type: Boolean,
+      default: true
+    }
+  },
   computed: {
     ...mapState(['formValue'])
   },
   data() {
     return {
-      edit: true,
       value: {}
     }
   },
   methods: {
     setFormValue(value) {
       this.$store.commit('SET_FORM_VALUE', value)
-    },
-    toggleEdit() {
-      this.edit = !this.edit
     }
   }
 }
 </script>
 
 <style scoped>
+@import '@/assets/style/svg/texture';
+
 .form-composer {
   display: grid;
   font-family: 'Open Sans', sans-serif;
@@ -76,36 +74,13 @@ export default {
 
 .form-composer__workspace {
   background-color: #ffffff;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23000000' fill-opacity='0.075' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+  background-image: $texture;
   position: relative;
 }
 
 .form-composer__workspace:hover .form-composer__button--edit {
   opacity: 1;
   pointer-events: all;
-}
-
-.form-composer__button {
-  background-color: none;
-  border: none;
-  cursor: pointer;
-  font-size: 0.875rem;
-  outline: none;
-}
-
-.form-composer__button--edit {
-  background-color: whitesmoke;
-  box-shadow: -0.05rem 0.05rem 0.25rem 0 rgba(0, 0, 0, 0.25);
-  color: darkgray;
-  font-size: 1rem;
-  height: 2rem;
-  opacity: 0;
-  pointer-events: none;
-  position: absolute;
-  right: 0;
-  transform-origin: right top;
-  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-  width: 2rem;
 }
 
 .form-composer__button--edit:hover {
